@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="js-svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>js-svg</title>
+    <style id="gallery-styles">
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+        display: block;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0.5em;
+        background-color: #f0f0f0;
+        box-sizing: border-box;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        margin: 0.5em 0;
+        font-weight: 500;
+      }
+
+      a {
+        text-decoration: none;
+        color: #000;
+      }
+
+      a:visited {
+        color: #000;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <style id="sketch-styles" disabled>
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      #window {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      svg {
+        margin: auto;
+        display: block;
+        box-shadow: 0px 2px 12px -2px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        touch-action: manipulation;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="gallery">
+      <p>
+        Custom tooling for creating generative art in the browser with
+        JavaScript, rendered to SVG.
+        <br />
+        <br />
+        <a
+          href="https://github.com/lucaionescu/js-svg"
+          target="_blank"
+          rel="noopener noreferrer"
+          >github.com/lucaionescu/js-svg</a
+        >
+      </p>
+      <ul>
+        <li><a href="/?sketch=demo">demo</a></li>
+        <li><a href="/?sketch=palettes">palettes</a></li>
+        <li><a href="/?sketch=gradient">gradient</a></li>
+        <li><a href="/?sketch=isometric-cubes">isometric cubes</a></li>
+        <li><a href="/?sketch=circle-packing">circle packing</a></li>
+      </ul>
+    </div>
+
+    <div id="window" style="display: none">
+      <div id="sketch-container"></div>
+    </div>
+
+    <script type="module">
+      const sketches = {
+        demo: "demo",
+        palettes: "palettes",
+        gradient: "gradient",
+        "isometric-cubes": "isometric cubes",
+        "circle-packing": "circle packing",
+      };
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const sketchName = urlParams.get("sketch");
+
+      if (sketchName && sketches[sketchName]) {
+        document.getElementById("gallery").style.display = "none";
+        document.getElementById("window").style.display = "flex";
+
+        document.getElementById("gallery-styles").disabled = true;
+        document.getElementById("sketch-styles").disabled = false;
+
+        document.title = sketches[sketchName];
+
+        try {
+          await import(`./sketches/${sketchName}.js`);
+        } catch (error) {
+          console.error(`Failed to load sketch: ${sketchName}`, error);
+          document.getElementById("gallery").style.display = "block";
+          document.getElementById("window").style.display = "none";
+          document.getElementById("gallery-styles").disabled = false;
+          document.getElementById("sketch-styles").disabled = true;
+          document.title = "js-svg";
+        }
+      } else {
+        document.getElementById("gallery").style.display = "block";
+        document.getElementById("window").style.display = "none";
+      }
+    </script>
+  </body>
+</html>

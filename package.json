@@ -1,0 +1,24 @@
+{
+  "name": "js-svg",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "author": "Luca Ionescu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucaionescu/js-svg"
+  },
+  "homepage": "https://lively-cupcake-399a89.netlify.app",
+  "dependencies": {
+    "@tweakpane/plugin-essentials": "0.2.1",
+    "tweakpane": "^4.0.5"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}
